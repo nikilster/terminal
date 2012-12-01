@@ -188,10 +188,21 @@ function linkFile(url) {
 
 Filesystem = {
 	'welcome.txt': {type:'file', read:function(terminal) {
-		terminal.print($('<h4>').text('Welcome to the walking wizard console.'));
+
+		terminal.print("");
+		terminal.print($('<h4>').text('Hi there! Welcome. Nice to see you here.'));
+		terminal.print("It turns out walking just 20-30 minutes a day (2.5 hours per week) can add about 3.4 years on your life.");
+		terminal.print("We want to help you do that.");
+		terminal.print("");
+		terminal.print("This is a simple walking quiz that will tell you your walking style.");
+		terminal.print("Based on your style, we recommend one small and simple action you can do right now to start walking.");
+		terminal.print("");
+		//terminal.print("Make and walk is for makers, like designers and hackers,  who are open to breaking from the making every once in a while to walk.");
+		terminal.print('Enter the command "start" to find out your walking style?');
+
 		//terminal.print('To navigate the comics, enter "next", "prev", "first", "last", "display", or "random".');
-		terminal.print('To start the wizard, enter "start".');
-		terminal.print('Use "ls", "cat", and "cd" to navigate the filesystem.');
+		//terminal.print('Use "ls", "cat", and "cd" to navigate the filesystem.');
+
 	}},
 	'license.txt': {type:'file', read:function(terminal) {
 		terminal.print($('<p>').html('Client-side logic for Wordpress CLI theme :: <a href="http://thrind.xamai.ca/">R. McFarland, 2006, 2007, 2008</a>'));
@@ -216,10 +227,12 @@ Filesystem = {
 		});
 	}}
 };
-Filesystem['blog'] = Filesystem['blag'] = linkFile('http://blag.xkcd.com');
+/*Filesystem['blog'] = Filesystem['blag'] = linkFile('http://blag.xkcd.com');
 Filesystem['forums'] = Filesystem['fora'] = linkFile('http://forums.xkcd.com/');
 Filesystem['store'] = linkFile('http://store.xkcd.com/');
-Filesystem['about'] = linkFile('http://xkcd.com/about/');
+Filesystem['about'] = linkFile('http://xkcd.com/about/');*/
+Filesystem['whyWalk'] = linkFile('http://www.mayoclinic.com/health/walking/HQ01612');
+Filesystem['behaviorDesign'] = linkFile('http://captology.stanford.edu/projects/behaviordesign.html');
 TerminalShell.pwd = Filesystem;
 
 TerminalShell.commands['cd'] = function(terminal, path) {
@@ -584,11 +597,112 @@ TerminalShell.fallback = function(terminal, cmd) {
 	return true;
 };
 
-// No peeking!
-TerminalShell.commands['start'] = function(terminal) {
-	terminal.print('Do you currently walk? [Y/n]');
-}; 
 
+/*
+	Walking wizard section!
+*/
+TerminalShell.commands['start'] = function(terminal) {
+		if (userAnswers.length==0){
+		terminal.print("");
+		terminal.print("(To respond, type the letter listed after the preferred option and press enter)");
+		userAnswers+=("y");
+		printNextQuestion(terminal);
+	}else if (userAnswers.length==8){
+		showWalkingProfile(terminal);
+		userAnswers+=("y");
+		terminal.print('\n Again? (Enter "start")');
+	}else if (userAnswers.length==9){
+		location.reload();
+
+	}else{
+		printUnrecognizedCommand(terminal);
+	}
+};
+
+
+userAnswers = "";//store it as a string where each character represents a reponse, e.g. "yeapsloc"
+var wizardQuestions = [
+	"I want to walk to exercise (e), take a break (b), or travel (t)",
+	"I would rather walk ... with others (o) or alone (a)",
+	"I would rather walk ... while doing something productive (p) or doing something entertaining (e)",	
+	"I would rather walk ... while paying attention to my surroundings (s) or reflecting inwardly (r)",
+	"I would rather walk ... at a leisurely pace (l) or at a brisk pace (b)",
+	"I would rather walk ... indoors (i) or outdoors (o)",
+	"I would rather walk ... during chunks of time throughout the day (c) or all at once (o)"
+];
+
+//Map a  command to a question it may be an answer for
+var possibleAnswers = {
+	"e" : [1,3],
+	"b" : [1,5],
+	"t" : [1],
+	"o" : [2,6,7],
+	"a" : [2],
+	"p" : [3],
+	"s" : [4],
+	"r" : [4],
+	"l" : [5],
+	"i" : [6],
+	"c" : [7],
+}	
+
+var response2profile = {
+	"eop": "You are the kind of walker who wants the ultimate turbo-like walking experience. You want to break a sweat with a few buddies while getting some work done. You are the first to suggest a fast paced walking meeting or brainstorming session.", 
+	"eoe": "You are the kind of walker who wants to get in shape while having a laugh. You look around the office and wonder which one of these clowns can break a sweat and crack a joke. Walking is kind of boring unless you’re walking with others and reminiscing about the time your boss didn’t realize he had a post-it glued on to his ***.",
+	"eap": "You are the kind of walker who likes to have the flexibility and convenience to break a sweat on your own terms. You also like to get stuff done while you do it. It might mean taking a conference call or catching up with family you haven’t spoken to in a while.",
+	"eae": "You are the kind of walker who likes to have the flexibility and convenience to break a sweat on your own terms. You also like to enjoy yourself while you do it. Walking isn’t that great unless you're listening to a podcast or TED talk. You want to walk and be entertained. ",
+	
+	"bop": "You’re the kind of walker who takes a break from the office and bring others along with you. Walking isn’t about getting into shape as much as it is about taking a breather from the machines. Though you’re taking a break from the physical space of the office, you might still want to catch up with colleagues on other things that are related to your work. This might turn your walk into a much needed collective venting session.",
+	"boe" : "You’re the kind of walker who takes a break from the office and bring others along with you. Walking isn’t about getting into shape as much as it is about taking a breather from the machines. You want this walking break to be as laid back as possible - work is a forbidden topic. Relaxation, jokes, and storytelling are welcome.",
+	"bap" : "You’re the kind of walker who takes a break from the machines and people in your office - and takes advantage of the solo time. It’s a good time to extricate yourself and get something else done that no one else in the office has to know about - you might bring along your kindle and walk as you read that book on time management. ",
+	"bae" : "You’re the kind of walker who takes a break from the machines and people in your office - while relaxing on your own. You might listen to a podcast at a leisurely pace or you might just listen to your surroundings. The point is your walk is just for you: a time to take a break and enjoy.",
+	
+	"top" : "You’re the kind of walker who walks to get to places and likes to do it with other people. Maybe it’s to walk during the day to go get some food or coffee, or maybe it’s to walk between various locations in a city, or buildings on a campus. You also want take the time to get things done while you’re on the go.",
+	"toe" : "You’re the kind of walker who walks to get to places and likes to do it with other people. Maybe it’s to walk during the day to go get some food or coffee, or maybe it’s to walk between various locations in a city, or buildings on a campus. You also want to have fun while you’re on the go. ",
+	"tap" : "You’re the kind of walker who finds yourself walking to get to places, usually on your own. You want to kill two birds with one stone, and also get some work done you might browse your phone and finish up a few emails, or knock out a phone meeting on the go.",
+	"tae" : "You’re the kind of walker who finds yourself walking to get to places, usually on your own. You’ll take advantage of any commute time to revel in some music, podcast, or audiobook. You just want to enjoy yourself and let go - while on the go. ",
+};
+
+var printNextQuestion = function(terminal){
+	terminal.print(wizardQuestions[userAnswers.length-1]);
+};
+
+var printUnrecognizedCommand = function(terminal){
+	terminal.print('Invalid answer. Type one of the options above');
+}
+
+for (var ans in possibleAnswers){
+	var str = "TerminalShell.commands['"+ans+"'] = TerminalShell.commands['"+ans.toUpperCase()+"'] = function(terminal){\
+		if (["+possibleAnswers[ans]+"].indexOf(userAnswers.length)>=0){\
+			userAnswers+='"+ans+"';\
+			printNextQuestion(terminal);\
+		}else{printUnrecognizedCommand(terminal);}\
+		if (userAnswers.length == 8){\
+			terminal.print('Ok, we have a better sense for your walking preferences:');\
+			printUserResponses(terminal);\
+			showWalkingProfile(terminal);\
+		}\
+	}";
+	
+	eval(str);
+}
+
+
+var printUserResponses = function(terminal){
+	//terminal.print("");
+}
+
+var showWalkingProfile = function(terminal){
+	terminal.print(response2profile[userAnswers.substring(1,4)]);
+}
+
+//terminal.print('Want to see your walking profile?(y/n)');\
+
+/*
+	End Walking Wizard Section
+*/
+
+// No peeking!
 var konamiCount = 0;
 $(document).ready(function() {
 	Terminal.promptActive = false;
