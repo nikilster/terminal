@@ -179,5 +179,4 @@ var wizard = [
 ].join('\n');
 
 var asciiImagesArr = [yoda,shark,lion,owl,southpark,smurf,samurai,bulldog,wizard];
-
   

@@ -624,7 +624,7 @@ TerminalShell.commands['y'] = TerminalShell.commands['Y'] = function(terminal){
 		terminal.print("\n Sweet! You're awesome");
 		showRandomAsciiImage(terminal);
 		userAnswers+='y';
-		terminal.print('Type "surprise" for random ASCII art. Type "again" to do the test again');
+		terminal.print('Type "surprise" for another cool picture! Type "sudo restart" to do the test again.');
 	}else{
 		printUnrecognizedCommand(terminal);
 	}
