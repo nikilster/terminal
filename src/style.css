@@ -11,6 +11,7 @@
 	font-family: 'Chunkfive';
 	src: url('Chunkfive.otf');
 }
+.spacer {height:1px;}
 
 div#title {  height:80px; border-bottom:2px solid white; }
 #title div {position:relative; float:left;}

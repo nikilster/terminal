@@ -5,8 +5,7 @@ var yoda = ["            .--.                  Try not.",
  "::::::::\\ `--' /::::::::              -Yoda"].join('\n');
 
 
-var shark = ["Isurus oxyrhynchus",
-"",
+var shark = [
 "      ,|",
 "     / ;",
 "    /  \\ ",
