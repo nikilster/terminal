@@ -624,13 +624,21 @@ TerminalShell.commands['y'] = TerminalShell.commands['Y'] = function(terminal){
 		terminal.print("\n Sweet! You're awesome");
 		showRandomAsciiImage(terminal);
 		userAnswers+='y';
-		terminal.print('\n Again? (y/n)');
-	}else if (userAnswers.length==9){
-		location.reload();
+		terminal.print('Type "surprise" for random ASCII art. Type "again" to do the test again');
 	}else{
 		printUnrecognizedCommand(terminal);
 	}
 }
+
+TerminalShell.commands['surprise'] = function(terminal){
+	showRandomAsciiImage(terminal);
+}
+
+TerminalShell.commands['again'] = function(terminal){
+	location.reload();
+}
+
+
 
 Array.prototype.randomElement = function () {
     return this[Math.floor(Math.random() * this.length)];
