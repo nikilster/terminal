@@ -198,7 +198,7 @@ Filesystem = {
 		terminal.print("Based on your style, we recommend one small and simple action you can do right now to start walking.");
 		terminal.print("");
 		//terminal.print("Make and walk is for makers, like designers and hackers,  who are open to breaking from the making every once in a while to walk.");
-		terminal.print('Enter the command "start" to find out your walking style');
+		terminal.print('Enter the command "start" to find out your walking style.');
 
 		//terminal.print('To navigate the comics, enter "next", "prev", "first", "last", "display", or "random".');
 		//terminal.print('Use "ls", "cat", and "cd" to navigate the filesystem.');
