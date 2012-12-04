@@ -644,7 +644,7 @@ var showRandomAsciiImage = function (terminal){
 
 userAnswers = "";//store it as a string where each character represents a reponse, e.g. "yeapsloc"
 var wizardQuestions = [
-	"I want to walk to exercise (e), take a break (b), or travel (t)",
+	"I want to walk to exercise (e), take a break (b), or get to places (g)",
 	"I would rather walk ... with others (o) or alone (a)",
 	"I would rather walk ... while doing something productive (p) or doing something entertaining (e)",	
 	"I would rather walk ... while paying attention to my surroundings (s) or reflecting inwardly (r)",
@@ -657,7 +657,7 @@ var wizardQuestions = [
 var possibleAnswers = {
 	"e" : [1,3],
 	"b" : [1,5],
-	"t" : [1],
+	"g" : [1],
 	"o" : [2,6,7],
 	"a" : [2],
 	"p" : [3],
@@ -705,7 +705,7 @@ for (var ans in possibleAnswers){
 				printUserResponses(terminal);\
 				showWalkingProfile(terminal);\
 				terminal.print('');\
-				terminal.print('Come back and tell us when did it, we have a surprise for you!');\
+				terminal.print('Come back and tell us when you did it, we have a surprise for you!');\
 				terminal.print('');\
 				terminal.print('Did it? (y/n)');\
 			}\
