@@ -711,6 +711,7 @@ for (var ans in possibleAnswers){
 				terminal.print('');\
 				terminal.print('Ok, we have a better sense for your walking preferences:');\
 				printUserResponses(terminal);\
+				terminal.print('');\
 				showWalkingProfile(terminal);\
 				terminal.print('');\
 				terminal.print('Come back and tell us when you did it, we have a surprise for you!');\
