@@ -7,10 +7,19 @@
 /*
 	My Additions
 */
+@font-face {
+	font-family: 'Chunkfive';
+	src: url('Chunkfive.otf');
+}
 
-div#title { border-bottom:2px solid white; }
+div#title {  height:80px; border-bottom:2px solid white; }
+#title div {position:relative; float:left;}
+
 h1, h2 { color:#FFF; margin-bottom:6px; }
+div#title h1{ font-family: 'Chunkfive'; }
+#title img {height:60px; margin-top:20px; margin-right:10px;}
 div#title small { font-size:.6em; letter-spacing:1px; }
+#text {margin-top:12px;}
 div#title { margin-bottom:6px; }
 
 div#credit { position:absolute; bottom:0; color:#FFF; font-size:small; opacity:.75; }
