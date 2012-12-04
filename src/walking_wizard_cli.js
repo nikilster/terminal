@@ -198,7 +198,7 @@ Filesystem = {
 		terminal.print("Based on your style, we recommend one small and simple action you can do right now to start walking.");
 		terminal.print("");
 		//terminal.print("Make and walk is for makers, like designers and hackers,  who are open to breaking from the making every once in a while to walk.");
-		terminal.print('Enter the command "start" to find out your walking style?');
+		terminal.print('Enter the command "start" to find out your walking style.');
 
 		//terminal.print('To navigate the comics, enter "next", "prev", "first", "last", "display", or "random".');
 		//terminal.print('Use "ls", "cat", and "cd" to navigate the filesystem.');
@@ -621,10 +621,24 @@ TerminalShell.commands['start'] = function(terminal) {
 
 TerminalShell.commands['y'] = TerminalShell.commands['Y'] = function(terminal){
 	if (userAnswers.length==8){
-		terminal.print("Sweet! You're awesome");
+		terminal.print("\n Sweet! You're awesome");
 		showRandomAsciiImage(terminal);
+		userAnswers+='y';
+		terminal.print('Type "surprise" for random ASCII art. Type "again" to do the test again');
+	}else{
+		printUnrecognizedCommand(terminal);
 	}
 }
+
+TerminalShell.commands['surprise'] = function(terminal){
+	showRandomAsciiImage(terminal);
+}
+
+TerminalShell.commands['again'] = function(terminal){
+	location.reload();
+}
+
+
 
 Array.prototype.randomElement = function () {
     return this[Math.floor(Math.random() * this.length)];
@@ -638,7 +652,7 @@ var showRandomAsciiImage = function (terminal){
 
 userAnswers = "";//store it as a string where each character represents a reponse, e.g. "yeapsloc"
 var wizardQuestions = [
-	"I want to walk to exercise (e), take a break (b), or travel (t)",
+	"I want to walk to exercise (e), take a break (b), or get to places (g)",
 	"I would rather walk ... with others (o) or alone (a)",
 	"I would rather walk ... while doing something productive (p) or doing something entertaining (e)",	
 	"I would rather walk ... while paying attention to my surroundings (s) or reflecting inwardly (r)",
@@ -651,7 +665,7 @@ var wizardQuestions = [
 var possibleAnswers = {
 	"e" : [1,3],
 	"b" : [1,5],
-	"t" : [1],
+	"g" : [1],
 	"o" : [2,6,7],
 	"a" : [2],
 	"p" : [3],
@@ -698,9 +712,10 @@ for (var ans in possibleAnswers){
 				terminal.print('');\
 				terminal.print('Ok, we have a better sense for your walking preferences:');\
 				printUserResponses(terminal);\
+				terminal.print('');\
 				showWalkingProfile(terminal);\
 				terminal.print('');\
-				terminal.print('Come back and tell us when did it, we have a surprise for you!');\
+				terminal.print('Come back and tell us when you did it, we have a surprise for you!');\
 				terminal.print('');\
 				terminal.print('Did it? (y/n)');\
 			}\
