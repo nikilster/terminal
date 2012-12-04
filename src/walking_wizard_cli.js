@@ -621,8 +621,14 @@ TerminalShell.commands['start'] = function(terminal) {
 
 TerminalShell.commands['y'] = TerminalShell.commands['Y'] = function(terminal){
 	if (userAnswers.length==8){
-		terminal.print("Sweet! You're awesome");
+		terminal.print("\n Sweet! You're awesome");
 		showRandomAsciiImage(terminal);
+		userAnswers+='y';
+		terminal.print('\n Again? (y/n)');
+	}else if (userAnswers.length==9){
+		location.reload();
+	}else{
+		printUnrecognizedCommand(terminal);
 	}
 }
 
