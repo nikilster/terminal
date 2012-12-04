@@ -680,6 +680,7 @@ var response2profile = {
 };
 
 var printNextQuestion = function(terminal){
+	terminal.print('');
 	terminal.print(wizardQuestions[userAnswers.length-1]);
 };
 
