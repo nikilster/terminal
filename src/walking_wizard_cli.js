@@ -619,6 +619,22 @@ TerminalShell.commands['start'] = function(terminal) {
 	}
 };
 
+TerminalShell.commands['y'] = TerminalShell.commands['Y'] = function(terminal){
+	if (userAnswers.length==8){
+		terminal.print("Sweet! You're awesome");
+		showRandomAsciiImage(terminal);
+	}
+}
+
+Array.prototype.randomElement = function () {
+    return this[Math.floor(Math.random() * this.length)];
+}
+
+var showRandomAsciiImage = function (terminal){
+	terminal.print(asciiImagesArr.randomElement());
+}
+
+
 
 userAnswers = "";//store it as a string where each character represents a reponse, e.g. "yeapsloc"
 var wizardQuestions = [
@@ -675,14 +691,21 @@ for (var ans in possibleAnswers){
 	var str = "TerminalShell.commands['"+ans+"'] = TerminalShell.commands['"+ans.toUpperCase()+"'] = function(terminal){\
 		if (["+possibleAnswers[ans]+"].indexOf(userAnswers.length)>=0){\
 			userAnswers+='"+ans+"';\
-			printNextQuestion(terminal);\
+			if(userAnswers.length < 8){\
+				printNextQuestion(terminal);\
+			}else{\
+				terminal.print('');\
+				terminal.print('Ok, we have a better sense for your walking preferences:');\
+				printUserResponses(terminal);\
+				showWalkingProfile(terminal);\
+				terminal.print('');\
+				terminal.print('Come back and tell us when did it, we have a surprise for you!');\
+				terminal.print('');\
+				terminal.print('Did it? (y/n)');\
+			}\
 		}else{printUnrecognizedCommand(terminal);}\
-		if (userAnswers.length == 8){\
-			terminal.print('Ok, we have a better sense for your walking preferences:');\
-			printUserResponses(terminal);\
-			showWalkingProfile(terminal);\
-		}\
 	}";
+
 	
 	eval(str);
 }
