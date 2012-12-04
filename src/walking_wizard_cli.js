@@ -694,10 +694,9 @@ for (var ans in possibleAnswers){
 			if(userAnswers.length < 8){\
 				printNextQuestion(terminal);\
 			}else{\
-				terminal.print('');
+				terminal.print('');\
 				terminal.print('Ok, we have a better sense for your walking preferences:');\
 				printUserResponses(terminal);\
-				terminal.print('');
 				showWalkingProfile(terminal);\
 				terminal.print('');\
 				terminal.print('Come back and tell us when did it, we have a surprise for you!');\
